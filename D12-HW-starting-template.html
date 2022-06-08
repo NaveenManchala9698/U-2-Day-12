@@ -195,8 +195,16 @@
             them in a cool way!
           </p>
           <p>
-            <a href="#" id="btnone" class="btn btn-primary my-2">Load Images</a>
-            <a href="#" id="btntwo" class="btn btn-secondary my-2"
+            <a
+              href="#"
+              class="btn btn-primary my-2"
+              onclick="loadImages('cars')"
+              >Load Images</a
+            >
+            <a
+              href="#"
+              class="btn btn-secondary my-2"
+              onclick="loadImages('beach')"
               >Load Secondary Images</a
             >
           </p>
@@ -653,7 +661,7 @@
         },
       };
 
-      const images = (query) => {
+      const loadImages = (query) => {
         fetch(`https://api.pexels.com/v1/search?query=${query}`, options)
           .then((response) => response.json())
 
@@ -669,7 +677,7 @@
               //console.log(element);
 
               const col = document.createElement("div");
-              col.className = "col-md-4";
+              col.className = " col col-md-4";
 
               col.innerHTML = ` <div class="card mb-4 shadow-sm">
               <img src =${element.src.original}
@@ -688,13 +696,13 @@
                     </button>
                     <button
                       type="button"
-                      id="hidebtn"
                       class="btn btn-sm btn-outline-secondary"
+                      onclick = removeCard(event)
                     >
                       Hide
                     </button>
                   </div>
-                  <small class="text-muted">${element.id}</small>
+                  <small class="text-muted">9 min</small>
                 </div>
               </div>
             </div>
@@ -705,21 +713,27 @@
           .catch((err) => console.error(err));
       };
 
-      const btnCars = document.getElementById("btnone");
+      /*    const btnCars = document.getElementById("btnone");
       btnCars.addEventListener("click", images("cars"));
 
       const btnBeach = document.getElementById("btntwo");
-      btnBeach.addEventListener("click", images("beach"));
+      btnBeach.addEventListener("click", images("beach")); */
 
-      const hideCard = () => {
-        let hidden = document.getElementsByClassName("card");
-        for (let i = 0; i < hidden.length; i++) {
-          hidden[i].style.visibility = "hidden";
+      //3
+      /* const changeEdit = () => {
+        const edit = document.querySelectorAll("button:last-of-type");
+        for (let i = 0; i < edit.length; i++) {
+          edit[i].innerHTML = "Hide";
         }
-
-        const btnHide = document.getElementById("hidebtn");
-        btnHide.addEventListener("click", hideCard());
       };
+      changeEdit(); */
+
+      //4
+      const removeCard = (e) => {
+        e.target.closest(".col-md-4").remove();
+      };
+
+      //5
     </script>
   </body>
 </html>
