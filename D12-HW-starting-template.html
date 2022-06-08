@@ -195,27 +195,20 @@
             them in a cool way!
           </p>
           <p>
-            <a href="#" class="btn btn-primary my-2">Load Images</a>
-            <a href="#" class="btn btn-secondary my-2">Load Secondary Images</a>
+            <a href="#" id="btnone" class="btn btn-primary my-2">Load Images</a>
+            <a href="#" id="btntwo" class="btn btn-secondary my-2"
+              >Load Secondary Images</a
+            >
           </p>
         </div>
       </section>
 
-      <div class="album py-5 bg-light">
+      <!-- <div class="album py-5 bg-light">
         <div class="container">
           <div class="row">
             <div class="col-md-4">
               <div class="card mb-4 shadow-sm">
-                <svg
-                  class="bd-placeholder-img card-img-top"
-                  width="100%"
-                  height="225"
-                  xmlns="http://www.w3.org/2000/svg"
-                  preserveAspectRatio="xMidYMid slice"
-                  focusable="false"
-                  role="img"
-                  aria-label="Placeholder: Thumbnail"
-                >
+                <img src="">
                   <title>Placeholder</title>
                   <rect width="100%" height="100%" fill="#55595c" />
                   <text x="50%" y="50%" fill="#eceeef" dy=".3em">
@@ -622,6 +615,11 @@
             </div>
           </div>
         </div>
+      </div> -->
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <div class="row"></div>
+        </div>
       </div>
     </main>
 
@@ -646,5 +644,82 @@
       integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
       crossorigin="anonymous"
     ></script>
+    <script>
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization:
+            "Bearer 563492ad6f91700001000001c24ed7494ee3424487a625ebf0094b93",
+        },
+      };
+
+      const images = (query) => {
+        fetch(`https://api.pexels.com/v1/search?query=${query}`, options)
+          .then((response) => response.json())
+
+          .then((data) => {
+            console.log(data);
+
+            const display = document.querySelector(
+              ".album > .container > .row"
+            );
+
+            for (let i = 0; i < data.photos.length; i++) {
+              const element = data.photos[i];
+              //console.log(element);
+
+              const col = document.createElement("div");
+              col.className = "col-md-4";
+
+              col.innerHTML = ` <div class="card mb-4 shadow-sm">
+              <img src =${element.src.original}
+              >
+              <div class="card-body">
+                <p class="card-text">
+                  ${element.photographer}
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-secondary"
+                    >
+                      View
+                    </button>
+                    <button
+                      type="button"
+                      id="hidebtn"
+                      class="btn btn-sm btn-outline-secondary"
+                    >
+                      Hide
+                    </button>
+                  </div>
+                  <small class="text-muted">${element.id}</small>
+                </div>
+              </div>
+            </div>
+          `;
+              display.appendChild(col);
+            }
+          })
+          .catch((err) => console.error(err));
+      };
+
+      const btnCars = document.getElementById("btnone");
+      btnCars.addEventListener("click", images("cars"));
+
+      const btnBeach = document.getElementById("btntwo");
+      btnBeach.addEventListener("click", images("beach"));
+
+      const hideCard = () => {
+        let hidden = document.getElementsByClassName("card");
+        for (let i = 0; i < hidden.length; i++) {
+          hidden[i].style.visibility = "hidden";
+        }
+
+        const btnHide = document.getElementById("hidebtn");
+        btnHide.addEventListener("click", hideCard());
+      };
+    </script>
   </body>
 </html>
