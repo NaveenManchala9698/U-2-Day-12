@@ -208,6 +208,24 @@
               >Load Secondary Images</a
             >
           </p>
+          <div class="input-group mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search Images here..."
+              aria-label="Recipient's username"
+              aria-describedby="button-addon2"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+              >
+                Search
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -676,6 +694,13 @@
               const element = data.photos[i];
               //console.log(element);
 
+              //5
+              const cards = document.querySelectorAll(".card");
+              for (let i = 0; i < cards.length; i++) {
+                cards[i].querySelector("small").innerText =
+                  "I.D: " + data.photos[i].id;
+              }
+
               const col = document.createElement("div");
               col.className = " col col-md-4";
 
@@ -712,6 +737,23 @@
           })
           .catch((err) => console.error(err));
       };
+
+      //6
+
+      const input = document.querySelector(".input-group input.form-control");
+      const search = document.querySelector(
+        ".input-group button.btn-outline-secondary"
+      );
+      const searchImages = (userEvent) => {
+        console.log("userEvent");
+        if (userEvent.key === "Enter") {
+          loadImages(userEvent.target.value);
+        } else if (userEvent.type === "click") {
+          loadImages(input.value);
+        }
+      };
+      input.addEventListener("keyup", searchImages);
+      search.addEventListener("click", searchImages);
 
       /*    const btnCars = document.getElementById("btnone");
       btnCars.addEventListener("click", images("cars"));
